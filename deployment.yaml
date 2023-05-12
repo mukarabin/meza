@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mukarabin
+  namespace: production
+  labels:
+    app: mukarabin
+spec:
+  selector:
+    app: mukarabin
+  ports:
+  - port: 80
+    name: http
+    targetPort: 80
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mukarabin
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      app: mukarabin
+  strategy:
+    type: RollingUpdate
+  template: #Template for container
+    metadata:
+      labels:
+        app: mukarabin
+    spec:
+      containers:
+      - name: mukarabin
+        image:  us.gcr.io/$PROJECT_ID/production/mukarabin:$SHORT_SHA
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: mukarabin
+        resources:
+          requests:
+            cpu: 50m
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mukarabin
+  namespace: production
+spec:
+  maxReplicas: 25
+  minReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mukarabin
+  targetCPUUtilizationPercentage: 100
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mukarabin
+  namespace: production
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: meza
+    kubernetes.io/ingress.allow-http: "false"
+    networking.gke.io/managed-certificates: mukarabin
+spec:
+  rules:
+    - host: app.mukarabin.com
+      http:
+        paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: mukarabin
+              port: 
+                number: 80
+
+---
+apiVersion: networking.gke.io/v1beta2
+kind: ManagedCertificate
+metadata:
+  name: mukarabin
+  namespace: production
+spec:
+  domains:
+    - app.mukarabin.com

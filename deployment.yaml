@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
       - name: mukarabin
-        image:  us.gcr.io/$PROJECT_ID/production/mukarabin:$SHORT_SHA
+        image:  us.gcr.io/$PROJECT_ID/production/mukarabin:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 80

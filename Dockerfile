@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN go build -o todo-api 
+RUN go build -o index.html
 
 EXPOSE 8080
 
-CMD ./todo-api
+CMD ./index.html
 
 
 

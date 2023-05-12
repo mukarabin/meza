@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN go build -o index.html
+RUN go build -v -o /usr/local/bin/app ./... index.html
 
 EXPOSE 8080
 
-CMD ./index.html
+CMD "index.html"
 
 
 

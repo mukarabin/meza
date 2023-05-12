@@ -75,7 +75,7 @@ metadata:
     networking.gke.io/managed-certificates: mukarabin
 spec:
   rules:
-    - host: app.mukarabin.com
+    - host: app.mukarabin.site
       http:
         paths:
         - path: /*

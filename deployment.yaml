@@ -94,4 +94,4 @@ metadata:
   namespace: production
 spec:
   domains:
-    - app.mukarabin.com
+    - app.mukarabin.site

@@ -14,10 +14,10 @@
 
 
 FROM nginx:alpine
-RUN mkdir -p /usr/src/app/mukarabin
-COPY . /usr/src/app/mukarabin
+RUN mkdir -p /var/www/mukarabin
+COPY . /var/www/mukarabin
 
-WORKDIR /usr/src/app/mukarabin
+WORKDIR /var/www/mukarabin
 
 EXPOSE 80
 

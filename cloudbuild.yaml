@@ -21,8 +21,8 @@ steps:
   args:
   - run
   - --filename=deployment.yaml
-  - --cluster=mukarabin-production
-  - --location=us-central1-c
+  - --cluster=meza-production
+  - --location=us-central1-a
   timeout: 900s
 
 # Global Timeout
